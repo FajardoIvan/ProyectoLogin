@@ -1,5 +1,6 @@
 package Vista;
 
+import Controlador.ActionIniciarSecion;
 import Modelo.MetodosValidacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -31,6 +34,7 @@ public class PanelLogin extends JPanel{
     JTextField casillaUsuario;
     JPasswordField casillaContraseña;
     MetodosValidacion valida;
+   
     
     public PanelLogin(){
         crearComponentes();
@@ -96,6 +100,7 @@ public class PanelLogin extends JPanel{
         ojito.setFocusable(false);        
         ojito.setBorderPainted(false);
         ojito.setContentAreaFilled(false);
+        ojito.addMouseListener(new ActionMostrarPassword(casillaContraseña));
                 
         JPanel pojo= new JPanel();
         pojo.setLayout(new BorderLayout(0,0));

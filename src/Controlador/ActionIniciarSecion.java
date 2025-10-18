@@ -1,6 +1,7 @@
-package Vista;
+package Controlador;
 
 import Modelo.MetodosValidacion;
+import Vista.PanelLogin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
