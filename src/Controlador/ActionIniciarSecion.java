@@ -5,6 +5,7 @@ import Vista.PanelLogin;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 /**
  *
@@ -22,9 +23,12 @@ public class ActionIniciarSecion implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String contra= login.getContrasena();
+        JPasswordField casillaContra= login.getcasContraseña();
         
-        if (validador.realizarValidacion()){
+        if (validador.realizarValidacionContraseña(contra,casillaContra)){
            JOptionPane.showMessageDialog(login,"Validacion Exitosa");
+           //casillaContra.requestFocus();
         } 
         
         

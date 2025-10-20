@@ -3,6 +3,7 @@ package Modelo;
 import Vista.PanelLogin;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 /**
  *
@@ -10,7 +11,7 @@ import javax.swing.JOptionPane;
  */
 public class MetodosValidacion {
     
-    private PanelLogin login;
+    private final PanelLogin login;
     private static final Pattern letraMayuscula = Pattern.compile(".*[A-Z].*");
     private static final Pattern letraMinuscula = Pattern.compile(".*[a-z].*");
     private static final Pattern numero = Pattern.compile(".*[0-9].*");
@@ -23,20 +24,16 @@ public class MetodosValidacion {
     
     /////////////////////////////////////////////METODOS/////////////////////////////////////////////////////////////////////
 
-    public Boolean validarUsuario(String usuario){ //Metodo que valida si el usuario cumple con los requisitos
-         return usuario != null && usuario.length() >= 8 && usuario.length() <= 20 && letraMayuscula.matcher(usuario).matches();
-        
-    }
     
-      public boolean realizarValidacion() {
-              String usuario = login.getUsuario();
-              String password = login.getContrasena();
+      public static boolean realizarValidacionUsuario(String usuario, JPasswordField contra) {
+            
               StringBuilder erroresUsuario = new StringBuilder();
         
         
-// Validación de Longitud
+        // Validación de Longitud
         if (usuario.length() < 8 || usuario.length() > 20) {
             erroresUsuario.append("- Debe tener entre 8 y 20 caracteres.\n");
+            
         }
         
         // Validación de Mayúscula
@@ -45,39 +42,54 @@ public class MetodosValidacion {
         }
 
         if (erroresUsuario.length() > 0) {
-            JOptionPane.showMessageDialog(login, 
+            JOptionPane.showMessageDialog(null, 
                 "El usuario presenta los siguientes errores:\n" + erroresUsuario.toString(), 
                 "Error en Usuario", JOptionPane.ERROR_MESSAGE);
+            contra.setEnabled(false);
             return false;
-        }
+        } else{
+            contra.setEnabled(true);
+            
+        } return true;
+    }    
       
       // --- VALIDACIÓN DETALLADA DE LA CONTRASEÑA ---
-
+    public boolean realizarValidacionContraseña(String password, JPasswordField ccontra) {
         StringBuilder erroresPassword = new StringBuilder();
         
         // Validación de Longitud (Mínimo 8)
         if (password.length() < 8) {
              erroresPassword.append("- Debe tener al menos 8 caracteres.\n");
+             ccontra.setText("");
+             ccontra.requestFocus();
         }
         
         // Validación de Mayúscula
         if (!letraMayuscula.matcher(password).matches()) {
             erroresPassword.append("- Debe contener al menos una mayúscula.\n");
+             ccontra.setText("");
+             ccontra.requestFocus();
         }
         
         // Validación de Minúscula
         if (!letraMinuscula.matcher(password).matches()) {
             erroresPassword.append("- Debe contener al menos una minúscula.\n");
+             ccontra.setText("");
+             ccontra.requestFocus();
         }
         
         // Validación de Dígito
         if (!numero.matcher(password).matches()) {
             erroresPassword.append("- Debe contener al menos un dígito numérico.\n");
+             ccontra.setText("");
+             ccontra.requestFocus();
         }
         
         // Validación de Carácter Especial
         if (!caracterEspecial.matcher(password).matches()) {
             erroresPassword.append("- Debe contener al menos un carácter especial.\n");
+             ccontra.setText("");
+             ccontra.requestFocus();
         }
 
         if (erroresPassword.length() > 0) {
@@ -94,6 +106,4 @@ public class MetodosValidacion {
          "¡Credenciales válidas! Acceso concedido.");
         return true;
       }
-      
-        
-}
+    }

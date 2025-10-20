@@ -1,5 +1,7 @@
 package Vista;
 
+import Controlador.ValidarUsuario;
+import Controlador.ActionMostrarPassword;
 import Controlador.ActionIniciarSecion;
 import Modelo.MetodosValidacion;
 import java.awt.BorderLayout;
@@ -33,11 +35,14 @@ public class PanelLogin extends JPanel{
     
     JTextField casillaUsuario;
     JPasswordField casillaContraseña;
-    MetodosValidacion valida;
+    PanelLogin thisPanel=this;
+    MetodosValidacion valida = new MetodosValidacion(thisPanel);
    
     
     public PanelLogin(){
+        casillaContraseña= new JPasswordField();
         crearComponentes();
+        
         
     }
     
@@ -64,6 +69,7 @@ public class PanelLogin extends JPanel{
         casillaUsuario.setBorder(null);
         casillaUsuario.setPreferredSize(new Dimension(400,20));
         casillaUsuario.setMaximumSize(new Dimension(400,20));
+        casillaUsuario.addKeyListener(new ValidarUsuario(casillaContraseña,valida));
         
         pcasillaUsuario.add(casillaUsuario);
         pcasillaUsuario.setPreferredSize(new Dimension(400,24));
@@ -87,10 +93,11 @@ public class PanelLogin extends JPanel{
         JLabel labelContraseña = new JLabel("Contraseña:");    
         labelContraseña.setBorder(new EmptyBorder(10,0,10,0));
         
-        casillaContraseña= new JPasswordField();
+        //casillaContraseña= new JPasswordField();
         casillaContraseña.setPreferredSize(tama2);
         casillaContraseña.setMaximumSize(tama2);
         casillaContraseña.setBorder(null);
+        casillaContraseña.setEnabled(false);
         
         ImageIcon iconoUno = new ImageIcon(getClass().getResource("/Vista/imagenes/1.1.jpg"));
         JButton ojito= new JButton(iconoUno);
@@ -100,7 +107,7 @@ public class PanelLogin extends JPanel{
         ojito.setFocusable(false);        
         ojito.setBorderPainted(false);
         ojito.setContentAreaFilled(false);
-        ojito.addMouseListener(new ActionMostrarPassword(casillaContraseña));
+        ojito.addMouseListener(new ActionMostrarPassword(casillaContraseña, ojito));
                 
         JPanel pojo= new JPanel();
         pojo.setLayout(new BorderLayout(0,0));
@@ -115,14 +122,6 @@ public class PanelLogin extends JPanel{
         pContraseña.add(labelContraseña,BorderLayout.NORTH);
         pContraseña.add(pojo,BorderLayout.CENTER);
         add(pContraseña);
-        
-      /*  JCheckBox recuerdame= new JCheckBox("Recuerdame");
-        recuerdame.setBackground(Color.WHITE);
-        recuerdame.setForeground(Color.BLACK);
-        recuerdame.setBorder(new EmptyBorder(10,0,0,0));
-        
-       // pContra.add(Box.createRigidArea(new Dimension(10,10)));*/
-        
         
         JPanel panelBot= new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
         panelBot.setBorder(new EmptyBorder(20,0,0,0));
@@ -165,7 +164,14 @@ public class PanelLogin extends JPanel{
     }
     
     public String getContrasena(){
-        return casillaContraseña.getText();
+        char[] passwordChar=casillaContraseña.getPassword();
+        String contra = new String(passwordChar);
+        return contra;
+    }
+    
+    public JPasswordField getcasContraseña(){
+        return casillaContraseña;
+        
     }
     
 }

@@ -1,6 +1,7 @@
-package Vista;
+package Controlador;
 
 import Modelo.MetodosValidacion;
+import Vista.VentanaLogin;
 
 
 
